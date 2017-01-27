@@ -11,15 +11,17 @@ class App extends React.Component {
   state = { articles: [], currentArticle: {}, newArticleForm: false };
 
   componentDidMount() {
-    this.setState({
-      articles: getArticleList()
+    getArticleList().then(articles => {
+      this.setState({ articles });
     });
   }
 
   setCurrentArticle = (articleId) => {
-    this.setState({
-      currentArticle: getArticle(articleId),
-      newArticleForm: false,
+    getArticle(articleId).then(article => {
+      this.setState({
+        currentArticle: article,
+        newArticleForm: false,
+      });
     });
   };
 
@@ -29,16 +31,16 @@ class App extends React.Component {
   }
 
   addArticle = (articleInput) => {
-    const newArticle = addArticle(articleInput);
-
-    this.setState((prevState) => {
-      const articles = prevState.articles;
-      articles[newArticle.key] = newArticle;
-      return {
-        articles,
-        currentArticle: newArticle,
-        newArticleForm: false,
-      };
+    addArticle(articleInput).then(newArticle => {
+      this.setState((prevState) => {
+        const articles = prevState.articles;
+        articles[newArticle.key] = newArticle;
+        return {
+          articles,
+          currentArticle: newArticle,
+          newArticleForm: false,
+        };
+      });
     });
   };
 

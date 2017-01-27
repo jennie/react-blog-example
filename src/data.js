@@ -28,14 +28,14 @@ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliqu
 ];
 
 export const getArticleList = () => {
-  return articles.reduce((acc, article) => {
+  return Promise.resolve(articles.reduce((acc, article) => {
     acc[article.key] = { title: article.title, date: article.date };
     return acc;
-  }, {});
+  }, {}));
 };
 
 export const getArticle = (articleKey) => {
-  return articles.find(article => article.key === articleKey);
+  return Promise.resolve(articles.find(article => article.key === articleKey));
 };
 
 export const addArticle = (articleInfo) => {
@@ -44,5 +44,5 @@ export const addArticle = (articleInfo) => {
     date: new Date(),
   });
   articles.push(newArticle);
-  return newArticle;
+  return Promise.resolve(newArticle);
 };
